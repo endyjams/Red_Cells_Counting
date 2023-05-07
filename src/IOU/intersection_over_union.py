@@ -27,10 +27,10 @@ def IntersectionOverUnion():
         detected_cells = detected_df[detected_df['image'] == image]
         real_cells = real_df[real_df['image'] == image]
         
-        print("Valores para a imagem: " + str(image))
+        print("Values related to: " + str(image))
 
         for label in detected_cells['label'].unique():
-            print("     Com a label: " + str(label))
+            print("     label: " + str(label))
 
             detected_cells_label = detected_cells[detected_cells['label'] == label]
             real_cells_label = real_cells[real_cells['label'] == label]
@@ -51,11 +51,11 @@ def IntersectionOverUnion():
                     if iou >= 0.5:
                         correct_values += 1
 
-                    print("           Valor Encontrado: " + str(iou))
+                    print("           Found Value: " + str(iou))
 
                     iou_values.append(iou)
             
-        print('                 Valores corretos: ' + str(correct_values))
+        print('                 Correct Values: ' + str(correct_values))
         print('\n')
     
     return iou_values
