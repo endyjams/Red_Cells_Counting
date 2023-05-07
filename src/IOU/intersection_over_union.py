@@ -9,7 +9,6 @@ def calculate_iou(box1, box2):
     y_intersection = max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
     intersection_area = x_intersection * y_intersection
 
-    # Calculate the area of union rectangle
     box1_area = w1 * h1
     box2_area = w2 * h2
     union_area = box1_area + box2_area - intersection_area
@@ -17,30 +16,46 @@ def calculate_iou(box1, box2):
     iou = intersection_area / union_area if union_area > 0 else 0
     return iou
 
-detected_df = pd.read_csv('detected_cells.csv')
-real_df = pd.read_csv('real_cells.csv')
+def IntersectionOverUnion():
+    detected_df = pd.read_csv('src/IOU/detected_cells.csv')
+    real_df = pd.read_csv('archive/annotations.csv')
 
-detected_groups = detected_df.groupby('image')
-real_groups = real_df.groupby('image')
+    iou_values = []
 
-iou_values = []
+    for image in detected_df['image'].unique():
 
-for image_name, detected_group in detected_groups:
-    if image_name in real_groups.groups:
-        real_group = real_groups.get_group(image_name)
+        detected_cells = detected_df[detected_df['image'] == image]
+        real_cells = real_df[real_df['image'] == image]
+        
+        print("Valores para a imagem: " + str(image))
 
-        for _, detected_row in detected_group.iterrows():
-            for _, real_row in real_group.iterrows():
+        for label in detected_cells['label'].unique():
+            print("     Com a label: " + str(label))
 
-                # Extract bounding box coordinates
-                box1 = (detected_row['xmin'], detected_row['ymin'], 
-                        detected_row['xmax'] - detected_row['xmin'], detected_row['ymax'] - detected_row['ymin'])
+            detected_cells_label = detected_cells[detected_cells['label'] == label]
+            real_cells_label = real_cells[real_cells['label'] == label]
+            
+            correct_values = 0
 
-                box2 = (real_row['xmin'], real_row['ymin'], 
-                        real_row['xmax'] - real_row['xmin'], real_row['ymax'] - real_row['ymin'])
+            for _, detected_row in detected_cells_label.iterrows():
+                for _, real_row in real_cells_label.iterrows():
 
-                # Calculate IOU
-                iou = calculate_iou(box1, box2)
+                    box1 = (detected_row['xmin'], detected_row['ymin'], 
+                            detected_row['xmax'] - detected_row['xmin'], detected_row['ymax'] - detected_row['ymin'])
 
-                # Add the IOU value to a list
-                iou_values.append(iou)
+                    box2 = (real_row['xmin'], real_row['ymin'], 
+                            real_row['xmax'] - real_row['xmin'], real_row['ymax'] - real_row['ymin'])
+
+                    iou = calculate_iou(box1, box2)
+
+                    if iou >= 0.5:
+                        correct_values += 1
+
+                    print("           Valor Encontrado: " + str(iou))
+
+                    iou_values.append(iou)
+            
+        print('                 Valores corretos: ' + str(correct_values))
+        print('\n')
+    
+    return iou_values
