@@ -7,12 +7,25 @@
 ## Dados
   - A base de dados Kaggle será utilizada para o teste e validação desse projeto
 
-## Avaliação da corretude da solução (IOU)
-  - Para isso, iremos usar Intersection Over Union (Interseção sobre união)
-  - Essa técnica serve para avaliar o desempenho de uma solução
-  - Logo, teremos as labels das nossas células, assim como a posição de sua bounding box (retângulo limitante)
-  - A corretude de uma solução será dada pelo cálculo do IOU
-  - Se o IOU entre a predição da bounding box e a bounding box verdadeira for >= 0.5, então consideramos a solução como correta
+## Avaliação da corretude da solução 
+  # Intersection Over Union (IOU)
+    - Para isso, iremos usar Intersection Over Union (Interseção sobre união)
+    - Essa técnica serve para avaliar o desempenho de uma solução
+    - Logo, teremos as labels das nossas células, assim como a posição de sua bounding box (retângulo limitante)
+    - A corretude de uma solução será dada pelo cálculo do IOU
+    - Se o IOU entre a predição da bounding box e a bounding box verdadeira for >= 0.5, então consideramos a solução como correta
+  
+  # Precision (Precisão) | Recall | F1 Score
+    - Os três são métricas para avaliar a corretude da solução proposta
+    - São baseados em termos de comparação entre os dados encontrados e os reais
+    - Teremos três tipos de situações que poderão ocorrer
+    - Positivo: Ocorre quando o dado encontrado e o dado real são verdadeiros
+    - Falso Positivo: Ocorre quando o dado real é falso e o encontrado é verdadeiro
+    - Falso Negativo: Ocorre quando o dado real é verdadeiro e o encontrado é falso
+    - Vamos utilizar os seguintes termos: NP (Número de positivos), FP (Número de Falsos Positivos) e FN (Número de Falsos Negativos)
+    - Precision = NP / (NP + FP)
+    - Recall = NP / (NP + FN)
+    - F1 Score = 2* ((Precision * Recall) / (Precision + Recall))
 
 ## Como foi feito?
   # Segmentação das imagens (HSV - Matiz, Saturação e Valor)
