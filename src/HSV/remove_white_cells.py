@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def RemoveWhiteCells(img):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    # Mantendo apenas as células vermelhas
+    # Mantendo apenas as células brancas
     lower_red = np.array([140, 50, 50])
     upper_red = np.array([255, 255, 255])
 
@@ -18,7 +18,7 @@ def RemoveWhiteCells(img):
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
 
-    # Segmentanto as células vermelhas, só elas irão aparecer
+    # Segmentanto as células brancas, só elas irão aparecer
     result = cv2.bitwise_and(img, img, mask=mask)
 
     return result

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 from read_images import ReadImages
-from HSV import remove_white_cells as rwc
-import numpy as np
+from cells_detection import white_cells_detection as wcd
 from cells_detection import red_cells_detection as rcd
+import numpy as np
 import cv2
 
 def main():

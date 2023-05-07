@@ -42,7 +42,7 @@ def RedCellsDetection(img):
 
     for c in contours:
         (x, y), r = cv2.minEnclosingCircle(c)
-        if r >= 20:
+        if r >= 19 and r <= 130:
             red_cells.append(c)
 
     red_cells_img = cv2.drawContours(img, red_cells, -1, (0, 255, 0), 3)

@@ -6,11 +6,8 @@ def RemoveRedCells(img):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Pegando os limites inferiores e superiores das células vermelhas
-    lower_red = np.array([140, 50, 50])
-    upper_red = np.array([255, 255, 255])
-
-    plt.imshow(lower_red)
-    plt.show()
+    lower_red = np.array([120, 50, 50])
+    upper_red = np.array([150, 255, 255])
 
     # Máscara contendo range (no canal hsv) que as células vermelhas se encontram
     mask = cv2.inRange(hsv, lower_red, upper_red)
@@ -23,5 +20,4 @@ def RemoveRedCells(img):
     # Segmentanto as células vermelhas, só elas irão aparecer
     result = cv2.bitwise_and(img, img, mask=mask)
 
-    plt.imshow(result)
-    plt.show()
+    return result
