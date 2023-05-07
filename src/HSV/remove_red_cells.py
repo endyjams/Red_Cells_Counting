@@ -5,12 +5,14 @@ import matplotlib.pyplot as plt
 def RemoveRedCells(img):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    # Mantendo apenas as células vermelhas
+    # Pegando os limites inferiores e superiores das células vermelhas
     lower_red = np.array([140, 50, 50])
     upper_red = np.array([255, 255, 255])
 
-    # Máscara que guarda o range que as células se encontram
+    plt.imshow(lower_red)
+    plt.show()
 
+    # Máscara contendo range (no canal hsv) que as células vermelhas se encontram
     mask = cv2.inRange(hsv, lower_red, upper_red)
 
     # Agora, "limpa" os ruídos mínimos pretos e brancos que estão na imagem
