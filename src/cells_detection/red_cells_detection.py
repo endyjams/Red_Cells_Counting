@@ -40,12 +40,19 @@ def RedCellsDetection(img):
 
     red_cells = []
 
+    red_cells_count = 0
+
     for c in contours:
         (x, y), r = cv2.minEnclosingCircle(c)
-        if r >= 19 and r <= 130:
-            red_cells.append(c)
 
-    red_cells_img = cv2.drawContours(img, red_cells, -1, (0, 255, 0), 3)
+        x1 = x-r
+        x2 = x+r
+        y1 = y-r
+        y2 = y+r
+
+        if r >= 19 and r <= 160:
+            cv2.rectangle(red_cells_img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+            red_cells_count += 1
 
     fig, ax = plt.subplots(nrows=3, ncols=3, figsize=(10,7))
     fig.subplots_adjust(hspace= 0.5, wspace= 0.5)
@@ -75,7 +82,7 @@ def RedCellsDetection(img):
     ax[2][1].set_title('Inverse')
 
     ax[2][2].imshow(red_cells_img)
-    ax[2][2].set_title('Red Cells: ' + str(len(red_cells)))
+    ax[2][2].set_title('Red Cells: ' + str(red_cells_count))
     
 
     plt.show()

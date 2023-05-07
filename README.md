@@ -15,12 +15,24 @@
   - Se o IOU entre a predição da bounding box e a bounding box verdadeira for >= 0.5, então consideramos a solução como correta
 
 ## Como foi feito?
+  # Segmentação das imagens (HSV - Matiz, Saturação e Valor)
+    - Matiz: é a representação pura da cor
+    - Saturação: é o grau de intensidade da cor
+    - Valor: é o nível de brilho e sombra da cor
+    - A detecção de células brancas e vermelhas foram feitas separadamente
+    - Para a remoção das células que não estavam sendo procuradas foi feito o seguinte:
+    - Uma máscara contendo o range da cor procurada é estabelecido, e uma operação de bitwise (and &) é feita para remoção de artefatos que não sejam daquela cor
 
-  # Preenchimento de buracos e "limpeza" dos limites dos retângulos
+  # Preenchimento de buracos e "limpeza" nos limites dos retângulos
     - Aplicação de Fechamento seguido de Abertura da imagem, isso serve para remover pequenos buracos pretos e brancos da imagem (no caso da detecção das hemácias é muito útil, pois retira algumas das células brancas)
-    - A operação de fechamento serviria para preencher os pequenos buracos da imagem
-    - Enquanto a operação de abertura serviria para remover os pequenos poros que estão presentes nos limites dos objetos das imagens
+    - Aplicação de erosão para preenchimento de pequenos buracos nos círculos
+  
 
-  # Trabalhando no canal HSV
-    - Para a detecção de células vermelhas, antes precisei fazer um tratamento da saturação do nível de azul da imagem (que é como as células brancas acabam aparecendo)
-    - O mesmo precisei fazer para a detecção de células brancas, diminuindo o nível de saturação de vermelho na imagem
+## Algoritmos utilizados
+  - Clahe (Aumento do contraste da imagem, isso faz com que os círculos fiquem em evidência) É uma adaptação da equalização histogrâmica
+  - Filtro Gaussiano (É um filtro para remoção de ruído em imagens, produz um efeito de borramento)
+  - Fechamento (Remoção de pequenos objetos - serve como um removedor de ruídos)
+  - Abertura (Remoção de objetos da parte da frente da imagem e os posicionando na parte de trás)
+  - Binarização da imagem (Treshold adaptativo)
+  - Erosão (Preenchimento de pequenos buracos na imagem, isso faz com que eles não sejam detectados como uma célula)
+  - Inverso da imagem (mapeamento das intensidades dos pixels para seu oposto, 255 - intensidade do pixel)

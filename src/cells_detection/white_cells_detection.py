@@ -39,12 +39,21 @@ def WhiteCellsDetection(img):
 
     white_cells = []
 
+    white_cells_count = 0
+
+    info = []
+
     for c in contours:
         (x, y), r = cv2.minEnclosingCircle(c)
-        if r >= 19 and r <= 130:
-            white_cells.append(c)
+        x1 = x-r
+        x2 = x+r
+        y1 = y-r
+        y2 = y+r
 
-    white_cells_img = cv2.drawContours(img, white_cells, -1, (0, 255, 0), 3)
+        if r >= 19 and r <= 160:
+            cv2.rectangle(white_cells_img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+            white_cells_count += 1
+            
 
     fig, ax = plt.subplots(nrows=3, ncols=3, figsize=(10,7))
     fig.subplots_adjust(hspace= 0.5, wspace= 0.5)
@@ -74,7 +83,7 @@ def WhiteCellsDetection(img):
     ax[2][1].set_title('Inverse')
 
     ax[2][2].imshow(white_cells_img)
-    ax[2][2].set_title('White Cells: ' + str(len(white_cells)))
+    ax[2][2].set_title('White Cells: ' + str(white_cells_count))
     
 
     plt.show()
